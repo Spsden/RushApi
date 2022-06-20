@@ -32,44 +32,56 @@ def fetch_data(link = base_url):
 
 
 
-def getApk_url(app_name = "whatsapp"):
+def getApk_url(app_name = "whatsapp messenger"):
     url = base_url + "/?s=" + app_name;
+    #testblock
+    print(url)
     page_response = fetch_data(url)
 
     try:
         soup = BeautifulSoup(page_response,'html.parser')
         z = soup.find("div", class_="appRow")
         d = z.find("a", class_="fontBlack")
-        print(d.string)
         downloadPage = d.get('href')
         page_link = base_url + downloadPage
+        
+
+        #test block
+        print(page_link)
         page_content = fetch_data(page_link)
         page_content = BeautifulSoup(page_content, "html.parser")
-        links_container = page_content.findAll("div", class_="table-cell rowheight addseparator expand pad dowrap")
 
         final_data = []
-        for links in links_container:
-            b = links.text
+  
+        link_container = page_content.findAll("div", class_="table-row headerFont")
+        final_data = []
+        fin = {}
+        app_link =""
+        arm_version = ""
+        android_version = ""
+        for links in link_container:
+            o = links.findAll("div")
+            if (o[1].string != None):
+                arm_version = o[1].string;
+                android_version = o[2].string;
+  
+            if (links.a != None):
+                app_link = base_url +  links.a["href"] + "download"
+            if (app_link != None and arm_version != None and android_version != None):
+                # pass
+                fin = {
+                    "link": app_link,
+                    "arm" : arm_version,
+                    "android_version": android_version
+                }
 
-            if(links.a != None):
-                a = links.a["href"]
+                final_data.append(fin)
 
-            data = {
-                "description": b.replace("\n", ""),
-                "link": base_url + a + 'download'
-            }
-
-            final_data.append(data)
-
-        print(final_data)
-
-
-            
-        
+        return final_data[1:]          
 
     except:
         print('error occurred')
     
+print(getApk_url("Google Chrome: Fast & Secure"))
     
     
-getApk_url('facebook')
