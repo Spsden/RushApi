@@ -11,13 +11,7 @@ headers = {
 base_url = "https://www.apkmirror.com/"
 
 
-# def responseChecker(response):
-#     if response.status_code != 200:
-#         print("Error fetching page")
-#         exit()
-#     else:
-#         print("success")
-#         return response.content
+
 
 # TO REQUEST TO SERVER
 def fetch_data(link = base_url):
@@ -91,13 +85,18 @@ def getApk_url(app_name = "whatsapp messenger",arch = "all"):
         linkOfDownloadPage = finaldict['link']
         print(linkOfDownloadPage)
 
+        downloadPageRes = fetch_data(linkOfDownloadPage)
+        soupOfDownloadPage = BeautifulSoup(downloadPageRes,"html.parser")
+        finalLinkCLass = soupOfDownloadPage.find("div",{"class":"tab-pane"})
+        finalDownloadLink = finalLinkCLass.find("a")
+
         
 
         if(arch == 'all'):
             return final_data[1:]
 
         else:
-            return finaldict    
+            return base_url + finalDownloadLink["href"]
             
 
         #return final_data[1:]
