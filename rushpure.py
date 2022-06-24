@@ -1,6 +1,7 @@
 
 from bs4 import BeautifulSoup
 import requests
+import traceback
 
 # HEADERS
 headers = {
@@ -32,7 +33,7 @@ def fetch_data(link = base_url):
 
 
 
-def getApk_url(app_name = "whatsapp messenger"):
+def getApk_url(app_name = "whatsapp messenger",arch = "all"):
     url = base_url + "/?s=" + app_name;
     #testblock
     print(url)
@@ -77,11 +78,34 @@ def getApk_url(app_name = "whatsapp messenger"):
 
                 final_data.append(fin)
 
-        return final_data[1:]          
+        finaldict = {}
+        
+
+        for data in final_data:
+            if (data['arm'] == arch):
+                
+                print(data['arm'])
+                finaldict = data
+                break
+        
+        linkOfDownloadPage = finaldict['link']
+        print(linkOfDownloadPage)
+
+        
+
+        if(arch == 'all'):
+            return final_data[1:]
+
+        else:
+            return finaldict    
+            
+
+        #return final_data[1:]
+              
 
     except:
-        print('error occurred')
+        traceback.print_exc()
     
-print(getApk_url("Google Chrome: Fast & Secure"))
+print(getApk_url('whatsapp','armeabi-v7a'))
     
     
