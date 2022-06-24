@@ -72,11 +72,32 @@ def getApk_url(app_name = "whatsapp messenger",arch = "all"):
 
                 final_data.append(fin)
 
-        finaldict = {}
+        #finaldict = {}
         
 
-        for data in final_data:
-            if (data['arm'] == arch):
+        # for data in final_data:
+        #     if (data['arm'] == arch):
+                
+        #         print(data['arm'])
+        #         finaldict = data
+        #         break
+        
+        # linkOfDownloadPage = finaldict['link']
+        # print(linkOfDownloadPage)
+
+        # downloadPageRes = fetch_data(linkOfDownloadPage)
+        # soupOfDownloadPage = BeautifulSoup(downloadPageRes,"html.parser")
+        # finalLinkCLass = soupOfDownloadPage.find("div",{"class":"tab-pane"})
+        # finalDownloadLink = finalLinkCLass.find("a")
+
+        
+
+        if(arch == 'all'):
+            return final_data[1:]
+
+        else:
+            for data in final_data:
+               if (data['arm'] == arch):
                 
                 print(data['arm'])
                 finaldict = data
@@ -89,15 +110,8 @@ def getApk_url(app_name = "whatsapp messenger",arch = "all"):
         soupOfDownloadPage = BeautifulSoup(downloadPageRes,"html.parser")
         finalLinkCLass = soupOfDownloadPage.find("div",{"class":"tab-pane"})
         finalDownloadLink = finalLinkCLass.find("a")
-
-        
-
-        if(arch == 'all'):
-            return final_data[1:]
-
-        else:
-            return base_url + finalDownloadLink["href"]
-            
+        return base_url + finalDownloadLink["href"]
+            #return final_data[1:]
 
         #return final_data[1:]
               
@@ -105,6 +119,6 @@ def getApk_url(app_name = "whatsapp messenger",arch = "all"):
     except:
         traceback.print_exc()
     
-print(getApk_url('whatsapp','armeabi-v7a'))
+print(getApk_url())
     
     

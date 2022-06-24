@@ -6,7 +6,7 @@ app = FastAPI()
 
 
 @app.get("/apkmirror/")
-async def root(app_name: str, arch: str):
+async def root(app_name: str, arch: str = 'all'):
     searchAppName = app_name
     searchArch = arch
     fetchedData = getApk_url(searchAppName,searchArch)
