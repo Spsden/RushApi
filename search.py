@@ -2,7 +2,10 @@ from urlresponse import *
 
 #fetcher = Fetcher()
 
-class SearchApp():
+class SearchApp:
+    search_result = []
+
+    
 
     def __init__(self,query:str):
         self.query = query
@@ -16,7 +19,7 @@ class SearchApp():
         allAppRows = soupedData.findAll("div", class_='appRow')
         #print(allAppRows)
 
-        search_result = []
+        
 
 
         for appRow in allAppRows[:10]:
@@ -27,7 +30,7 @@ class SearchApp():
                 "download_link_tag" : baseUrl + appRow.find("a",class_='downloadLink')['href']
 
             }
-            search_result.append(app_details)
+            self.search_result.append(app_details)
             # app_details["name_and_version"] = icon_tag['alt']
             # app_details["icon_url"] = icon_tag['src']
             # app_details["download_link_tag"] = appRow.find("a",class_='downloadLink')['href']
@@ -46,7 +49,9 @@ class SearchApp():
         #           f.write('\n')
 
 
-        print(search_result)
+       # print(search_result)
+
+        return self.search_result
 
         
         
@@ -55,5 +60,7 @@ class SearchApp():
     
 
 
-SearchApp('whatsapp')
+search = SearchApp('whatsapp')
+
+print(search.searchApp())
 
