@@ -78,7 +78,8 @@ class SearchApp:
         app_details = soup_of_file.find_all('div', class_ = 'appspec-row',limit=2)
         app_size = app_details[1].find('div',class_ = 'appspec-value')
 
-        #apk_download_page = 
+
+        apk_download_page = self.baseUrl + soup_of_file.find("svg" , class_="icon download-button-icon").parent['href']
         # for appRow in apk_download_page:
         #     with open('output.txt', 'w') as f:
         #         for line in appRow:
@@ -87,7 +88,7 @@ class SearchApp:
 
         print(app_details[0].text)
         print(app_size)
-        #print(apk_download_page)
+        print(apk_download_page)
 
 
         
