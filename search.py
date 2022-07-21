@@ -1,4 +1,5 @@
 import string
+from unittest import result
 
 from urlresponse import *
 
@@ -9,8 +10,10 @@ class SearchApp:
     search_result = []
     baseUrl = Fetcher.base_url
 
-    listOfArchs = ["armeabi-v7a","arm64-v8a + armeabi-v7a","x86","x86 + x86_64","arm64-v8a","mips","mips64"]
-    listOfVersion = ["Android 6.0+","Android 7.0+","Android 8.0+","Android 9.0+",]
+    listOfArchs = ["armeabi-v7a", "arm64-v8a + armeabi-v7a",
+                   "x86", "x86 + x86_64", "arm64-v8a", "mips", "mips64"]
+    listOfVersion = ["Android 6.0+", "Android 7.0+",
+                     "Android 8.0+", "Android 9.0+", ]
 
     def searchApp(self, query: str):
 
@@ -35,46 +38,65 @@ class SearchApp:
 
         print(url)
 
-
-    def searchDownloadOptions(self, url_of:str):
+    def searchDownloadOptions(self, url_of: str):
 
         souped_data = Fetcher.souper(url_of)
-        #print(souped_data.prettify)
+        # print(souped_data.prettify)
         result_list = []
         error = "not parsed yet"
-        allTableRowHeaderFont = souped_data.find_all("div", class_='table-row headerFont')
+        allTableRowHeaderFont = souped_data.find_all(
+            "div", class_='table-row headerFont')
 
         for tableRows in allTableRowHeaderFont[1:]:
-            download_page_url = tableRows.find("a",class_= 'accent_color')['href']
+            download_page_url = tableRows.find(
+                "a", class_='accent_color')['href']
 
-            variant = tableRows.find(True,'span',class_ = ['apkm-badge success','apkm-badge'])
+            variant = tableRows.find(True, 'span', class_=[
+                                     'apkm-badge success', 'apkm-badge'])
 
-            # if download_type is not None:
-            #    print(download_type.text)
-            #arminfo = tableRows.find_next_sibling('div')
-            
-            arch = tableRows.find('div', class_= "table-cell rowheight addseparator expand pad dowrap", string = self.listOfArchs)
+            arch = tableRows.find(
+                'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
             version = arch.find_next_sibling()
-            #print(arch.find_next_sibling())
-            #print(arminfo)
 
             app_versions = {
                 "variant": variant.text if variant is not None else error,
                 "download_page_url": self.baseUrl + download_page_url,
                 "arch": arch.text if arch is not None else error,
-                "version" : version.text if arch is not None else error
+                "version": version.text if arch is not None else error
             }
 
             result_list.append(app_versions)
-        
 
         return result_list
-            #print('/////////////////////////////////////////////////////')
+
+    def appInfo(self,url_of:str):
+
+        result = {}
+
+        soup_of_file = Fetcher.souper(url_of)
+
+        app_details = soup_of_file.find_all('div', class_ = 'appspec-row',limit=2)
+        app_size = app_details[1].find('div',class_ = 'appspec-value')
+
+        #apk_download_page = 
+        # for appRow in apk_download_page:
+        #     with open('output.txt', 'w') as f:
+        #         for line in appRow:
+        #             f.write(str(line))
+        #             f.write('\n')
+
+        print(app_details[0].text)
+        print(app_size)
+        #print(apk_download_page)
 
 
-            
+        
+
+
 
 search = SearchApp()
 
-#print(search.searchApp('whatsapp'))
-print(search.searchDownloadOptions('https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
+# print(search.searchApp('whatsapp'))
+# print(search.searchDownloadOptions(
+#     'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
+search.appInfo('https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/google-chrome-fast-secure-103-0-5060-129-14-android-apk-download')
