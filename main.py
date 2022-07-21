@@ -1,14 +1,6 @@
-import string
-from fastapi import FastAPI
-from rushpure import *
+from imp import reload
+import uvicorn
 
-app = FastAPI()
-
-
-@app.get("/apkmirror/")
-async def root(app_name: str, arch: str = 'all'):
-    searchAppName = app_name
-    searchArch = arch
-    fetchedData = getApk_url(searchAppName,searchArch)
-    return fetchedData
+if __name__ == "__main__":
+    uvicorn.run("server.api:app", host = "0.0.0.0", port = 8000, reload = True)
  
