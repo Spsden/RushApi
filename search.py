@@ -71,12 +71,11 @@ class SearchApp:
 
     def appInfo(self,url_of:str):
 
-        result = {}
-
+        
         soup_of_file = Fetcher.souper(url_of)
 
         app_details = soup_of_file.find_all('div', class_ = 'appspec-row',limit=2)
-        app_size = app_details[1].find('div',class_ = 'appspec-value')
+        app_size = app_details[1].find('div',class_ = 'appspec-value').text
 
 
         apk_download_page = self.baseUrl + soup_of_file.find("svg" , class_="icon download-button-icon").parent['href']
@@ -86,9 +85,19 @@ class SearchApp:
         #             f.write(str(line))
         #             f.write('\n')
 
-        print(app_details[0].text)
-        print(app_size)
-        print(apk_download_page)
+        result = {
+            "app_details" : app_details[0].text,
+            "app_size" : app_size,
+            "apk_download_url" : apk_download_page
+        }
+
+        return result
+
+
+
+        # print(app_details[0].text)
+        # print(app_size)
+        # print(apk_download_page)
 
 
         
@@ -100,4 +109,5 @@ search = SearchApp()
 # print(search.searchApp('whatsapp'))
 # print(search.searchDownloadOptions(
 #     'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
-search.appInfo('https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/google-chrome-fast-secure-103-0-5060-129-14-android-apk-download')
+lol = search.appInfo('https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/google-chrome-fast-secure-103-0-5060-129-14-android-apk-download')
+print(lol)
