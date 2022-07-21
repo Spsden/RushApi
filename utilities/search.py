@@ -1,4 +1,7 @@
 import string
+import http.client as http
+import requests
+from turtle import ht
 
 
 #from .urlresponse import *
@@ -86,6 +89,39 @@ class SearchApp:
         apk_download_page = self.baseUrl + \
             soup_of_file.find(
                 "svg", class_="icon download-button-icon").parent['href']
+        #print(apk_download_page)
+
+        soup = Fetcher.souper(apk_download_page)
+
+        x = soup.find_all('span', attrs= {'style' : 'font-weight: 500;' })[1].find('a')['href']
+
+        header = {
+            #'authority' : 'www.apkmirror.com',
+            #'path' : x[8:],
+            'scheme' : 'https',
+            'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+            'referer': apk_download_page,
+            'sec-ch-ua-platform' : "Windows",
+            'upgrade-insecure-requests': '1'
+
+
+
+        }
+
+        r = requests.get('https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=3724768&key=80df134e04c44a8eab59c18aae91a5315ef8562b',headers=header)
+        print(r.headers)
+
+        # conn = http.HTTPConnection(self.baseUrl[8:])
+        # conn.debuglevel = 1
+        # conn.request(url=x,method="GET",headers=header)
+
+        # r1 = conn.getresponse()
+
+        # print("\n\nURL: %s" % r1.getheader('Location'))
+        
+        print(x)
+        
+
 
         result = {
             "app_details": app_details[0].text,
@@ -99,17 +135,19 @@ class SearchApp:
 search = SearchApp()
 
 # print(search.searchApp('whatsapp'))
-print(search.searchDownloadOptions(
-    'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
+# print(search.searchDownloadOptions(
+#     'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
 
-print(search.searchDownloadOptions(
-    'https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/'))
+# print(search.searchDownloadOptions(
+#     'https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/'))
 
 # searchresults = search.searchApp("google chrome")[0]["download_link_tag"]
 # downloadoptions = search.searchDownloadOptions(searchresults)[0]["download_page_url"]
 # appdownloadpagelink = search.appInfo(downloadoptions)["apk_download_url"]
 
 # print(appdownloadpagelink)
+
+print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
 
 
 
