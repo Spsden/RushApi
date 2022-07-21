@@ -1,7 +1,8 @@
 import string
 
 
-from .urlresponse import *
+#from .urlresponse import *
+from urlresponse import *
 
 class SearchApp:
     
@@ -52,9 +53,16 @@ class SearchApp:
             variant = tableRows.find(True, 'span', class_=[
                                      'apkm-badge success', 'apkm-badge'])
 
-            arch = tableRows.find(
-                'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
-            version = arch.find_next_sibling()
+
+
+
+
+            # arch = tableRows.find(
+            #     'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
+            allTableCells = tableRows.find_all('div', class_="table-cell rowheight addseparator expand pad dowrap")
+            #print(allTableCells)
+            arch = allTableCells[1]
+            version = allTableCells[2]
 
             app_versions = {
                 "variant": variant.text if variant is not None else error,
@@ -88,11 +96,14 @@ class SearchApp:
         return result
 
 
-#search = SearchApp()
+search = SearchApp()
 
 # print(search.searchApp('whatsapp'))
-# print(search.searchDownloadOptions(
-#     'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
+print(search.searchDownloadOptions(
+    'https://www.apkmirror.com/apk/google-inc/chrome/chrome-103-0-5060-129-release/'))
+
+print(search.searchDownloadOptions(
+    'https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/'))
 
 # searchresults = search.searchApp("google chrome")[0]["download_link_tag"]
 # downloadoptions = search.searchDownloadOptions(searchresults)[0]["download_page_url"]
