@@ -4,8 +4,8 @@ import requests
 from turtle import ht
 
 
-#from .urlresponse import *
-from urlresponse import *
+from .urlresponse import *
+#from urlresponse import *
 
 
 class SearchApp:
@@ -87,7 +87,7 @@ class SearchApp:
         apk_download_page = self.baseUrl + \
             soup_of_file.find(
                 "svg", class_="icon download-button-icon").parent['href']
-        # print(apk_download_page)
+        
 
         soup = Fetcher.souper(apk_download_page)
 
@@ -118,7 +118,7 @@ class SearchApp:
         # print(x)
 
         result = {
-            "app_details": app_details[0].text,
+            "app_details": app_details[0].text.strip('\n'),
             "app_size": app_size,
             "apk_download_page": apk_download_page,
             "ak_download_url": final_download_link
@@ -127,7 +127,7 @@ class SearchApp:
         return result
 
 
-search = SearchApp()
+#search = SearchApp()
 
 # print(search.searchApp('whatsapp'))
 # print(search.searchDownloadOptions(
@@ -142,7 +142,7 @@ search = SearchApp()
 
 # print(appdownloadpagelink)
 
-print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
+#print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
 
 
 # lol = search.appInfo(
