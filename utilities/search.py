@@ -7,8 +7,9 @@ from turtle import ht
 #from .urlresponse import *
 from urlresponse import *
 
+
 class SearchApp:
-    
+
     baseUrl = Fetcher.base_url
 
     listOfArchs = ["armeabi-v7a", "arm64-v8a + armeabi-v7a",
@@ -56,14 +57,11 @@ class SearchApp:
             variant = tableRows.find(True, 'span', class_=[
                                      'apkm-badge success', 'apkm-badge'])
 
-
-
-
-
             # arch = tableRows.find(
             #     'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
-            allTableCells = tableRows.find_all('div', class_="table-cell rowheight addseparator expand pad dowrap")
-            #print(allTableCells)
+            allTableCells = tableRows.find_all(
+                'div', class_="table-cell rowheight addseparator expand pad dowrap")
+            # print(allTableCells)
             arch = allTableCells[1]
             version = allTableCells[2]
 
@@ -89,44 +87,41 @@ class SearchApp:
         apk_download_page = self.baseUrl + \
             soup_of_file.find(
                 "svg", class_="icon download-button-icon").parent['href']
-        #print(apk_download_page)
+        # print(apk_download_page)
 
         soup = Fetcher.souper(apk_download_page)
 
-        x = soup.find_all('span', attrs= {'style' : 'font-weight: 500;' })[1].find('a')['href']
+        final_download_link = soup.find_all(
+            'span', attrs={'style': 'font-weight: 500;'})[1].find('a')['href']
 
-        header = {
-            #'authority' : 'www.apkmirror.com',
-            #'path' : x[8:],
-            'scheme' : 'https',
-            'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
-            'referer': apk_download_page,
-            'sec-ch-ua-platform' : "Windows",
-            'upgrade-insecure-requests': '1'
+        # header = {
+        #     #'authority' : 'www.apkmirror.com',
+        #     #'path' : x[8:],
+        #     #'scheme' : 'https',
+        #     'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+        #     'referer': 'https://www.apkmirror.com/apk/amazingbyte/ip-tools-network-utilities/ip-tools-network-utilities-8-33-release/ip-tools-wifi-analyzer-8-33-2-android-apk-download/download/?key=aad8581465ee240d8499ea2fdd64527ae5b3d171',
+        #     #'sec-ch-ua-platform' : "Windows",
+        #     #'upgrade-insecure-requests': '1'
 
+        # }
 
+        # """
+        # The referer in the header must have key and always put allow_redirects to false to stop
+        # requests from getting redirected to next page.
 
-        }
+        # the download link is in the Location tag of the response header file.
+        # """
 
-        r = requests.get('https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=3724768&key=80df134e04c44a8eab59c18aae91a5315ef8562b',headers=header)
-        print(r.headers)
+        # r = requests.get('https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=3731190&key=643c830ea6e9fccebca820a4cca7e9a6c2d29061',headers=header,allow_redirects=False)
+        # print(r.headers)
 
-        # conn = http.HTTPConnection(self.baseUrl[8:])
-        # conn.debuglevel = 1
-        # conn.request(url=x,method="GET",headers=header)
-
-        # r1 = conn.getresponse()
-
-        # print("\n\nURL: %s" % r1.getheader('Location'))
-        
-        print(x)
-        
-
+        # print(x)
 
         result = {
             "app_details": app_details[0].text,
             "app_size": app_size,
-            "apk_download_url": apk_download_page
+            "apk_download_page": apk_download_page,
+            "ak_download_url": final_download_link
         }
 
         return result
@@ -148,10 +143,6 @@ search = SearchApp()
 # print(appdownloadpagelink)
 
 print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
-
-
-
-
 
 
 # lol = search.appInfo(
