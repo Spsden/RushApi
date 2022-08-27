@@ -49,9 +49,9 @@ class SearchApp:
         for appRow in allAppRows[:10]:
             icon_tag = appRow.find('img')
             app_details = {
-                "name_and_version": icon_tag['alt'],
-                "icon_url": self.baseUrl + icon_tag['src'],
-                "download_link_tag": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
+                "name": icon_tag['alt'],
+                "icon": self.baseUrl + icon_tag['src'],
+                "dpage": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
                 "dev": appRow.find('a',class_='byDeveloper block-on-mobile wrapText').string,
                 "span" : appRow.find('span', class_='dateyear_utc').string
 
