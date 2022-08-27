@@ -20,7 +20,28 @@ class SearchApp:
        # baseUrl = Fetcher.base_url
         search_result = []
 
-        url = self.baseUrl + "?s=" + query
+        url = self.baseUrl + "?searchtype=apk&s=" + query
+        url2 = self.baseUrl + "?searchtype=app&s=" + query
+        listOfUrls = [url,url2]
+
+        # for u in listOfUrls:
+        #     soupedData = Fetcher.souper(url2)
+        #     print(url2)
+        #     allAppRows = soupedData.findAll("div", class_='appRow')
+        #     print(url2)
+        #     print(allAppRows)
+
+        #     for appRow in allAppRows[:10]:
+        #         icon_tag = appRow.find('img')
+        #         app_details = {
+        #             "name_and_version": icon_tag['alt'],
+        #             "icon_url": self.baseUrl + icon_tag['src'],
+        #             "download_link_tag": self.baseUrl + appRow.find("a", class_='downloadLink')['href']
+
+        #         }
+        #         search_result.append(app_details)
+            
+
         soupedData = Fetcher.souper(url)
         allAppRows = soupedData.findAll("div", class_='appRow')
         # print(allAppRows)
@@ -30,7 +51,9 @@ class SearchApp:
             app_details = {
                 "name_and_version": icon_tag['alt'],
                 "icon_url": self.baseUrl + icon_tag['src'],
-                "download_link_tag": self.baseUrl + appRow.find("a", class_='downloadLink')['href']
+                "download_link_tag": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
+                "dev": appRow.find('a',class_='byDeveloper block-on-mobile wrapText').string,
+                "span" : appRow.find('span', class_='dateyear_utc').string
 
             }
             search_result.append(app_details)

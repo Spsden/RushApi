@@ -19,12 +19,6 @@ middleware = [
 
 app = FastAPI(middleware=middleware)
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins = ['*'],
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
 
 @app.get("/", tags = ["Root"])
 async def root():
