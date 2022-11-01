@@ -53,7 +53,8 @@ class SearchApp:
                 "icon": self.baseUrl + icon_tag['src'],
                 "dpage": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
                 "dev": appRow.find('a',class_='byDeveloper block-on-mobile wrapText').string,
-                "span" : appRow.find('span', class_='dateyear_utc').string
+                "span" : appRow.find('span', class_='dateyear_utc').string,
+                "source" : 'apkmirror'
 
             }
             search_result.append(app_details)
@@ -90,7 +91,8 @@ class SearchApp:
                 "variant": variant.text if variant is not None else error,
                 "download_page_url": self.baseUrl + download_page_url,
                 "arch": arch.text if arch is not None else error,
-                "version": version.text if arch is not None else error
+                "version": version.text if arch is not None else error,
+                "source" : 'apkmirror'
             }
 
             result_list.append(app_versions)
