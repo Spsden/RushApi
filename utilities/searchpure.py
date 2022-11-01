@@ -1,4 +1,4 @@
-from urlresponse import *
+from .urlresponse import *
 
 class SearchPure:
 
@@ -40,5 +40,5 @@ class SearchPure:
         return search_result
         
 
-x = SearchPure()
-print(x.searchApp(query='whatsapp'))
+# x = SearchPure()
+# print(x.searchApp(query='whatsapp'))
