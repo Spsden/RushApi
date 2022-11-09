@@ -1,5 +1,18 @@
 # RushApi
 
+## How to use ?
+
+1. Create a virtual environment using venv or conda.
+2. activate the venv and clone the repo inside it.
+4. run command 
+    ```
+    pip install -r requirements.txt
+    ```
+5. after installing all the required packages run command
+   ```
+   python main.py
+   ```
+
 
 ### Features
 
