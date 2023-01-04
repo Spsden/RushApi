@@ -17,7 +17,7 @@ class SearchPure:
         if topResult != None:
             app_details = {
                 "name" : topResult.find("p",class_='p1').text,
-                "icon" : topResult.find('img')['src'],
+                "icon" :  topResult.find('img')['src'] if topResult.find('img') != None else 'NA',
                 "dpage" : self.baseUrl + topResult.find_next('a' , class_="da")['href'],
                 "dev" : topResult.find('p',class_="p2").text,
                 "span" : "NA",
