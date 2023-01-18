@@ -1,9 +1,5 @@
 import string
-
-
-
 from .urlresponse import *
-#from urlresponse import *
 
 
 class SearchApp:
@@ -22,42 +18,28 @@ class SearchApp:
 
         url = self.baseUrl + "?searchtype=apk&s=" + query
         url2 = self.baseUrl + "?searchtype=app&s=" + query
-        listOfUrls = [url,url2]
-
-        # for u in listOfUrls:
-        #     soupedData = Fetcher.souper(url2)
-        #     print(url2)
-        #     allAppRows = soupedData.findAll("div", class_='appRow')
-        #     print(url2)
-        #     print(allAppRows)
-
-        #     for appRow in allAppRows[:10]:
-        #         icon_tag = appRow.find('img')
-        #         app_details = {
-        #             "name_and_version": icon_tag['alt'],
-        #             "icon_url": self.baseUrl + icon_tag['src'],
-        #             "download_link_tag": self.baseUrl + appRow.find("a", class_='downloadLink')['href']
-
-        #         }
-        #         search_result.append(app_details)
-            
+        listOfUrls = [url, url2]
 
         soupedData = Fetcher.souper(url)
         allAppRows = soupedData.findAll("div", class_='appRow')
         # print(allAppRows)
 
         for appRow in allAppRows[:10]:
-            icon_tag = appRow.find('img')
-            app_details = {
-                "name": icon_tag['alt'],
-                "icon": self.baseUrl + icon_tag['src'],
-                "dpage": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
-                "dev": appRow.find('a',class_='byDeveloper block-on-mobile wrapText').string,
-                "span" : appRow.find('span', class_='dateyear_utc').string,
-                "source" : 'apkmirror'
+            try:
 
-            }
-            search_result.append(app_details)
+                icon_tag = appRow.find('img')
+                app_details = {
+                    "name": icon_tag['alt'],
+                    "icon": self.baseUrl + icon_tag['src'],
+                    "dpage": self.baseUrl + appRow.find("a", class_='downloadLink')['href'],
+                    "dev": appRow.find('a', class_='byDeveloper block-on-mobile wrapText').string,
+                    "span": appRow.find('span', class_='dateyear_utc').string,
+                    "source": 'apkmirror'
+
+                }
+                search_result.append(app_details)
+            except:
+                traceback.print_exc
 
         return search_result
 
@@ -73,29 +55,33 @@ class SearchApp:
             "div", class_='table-row headerFont')
 
         for tableRows in allTableRowHeaderFont[1:]:
-            download_page_url = tableRows.find(
-                "a", class_='accent_color')['href']
 
-            variant = tableRows.find(True, 'span', class_=[
-                                     'apkm-badge success', 'apkm-badge'])
+            try:
+                download_page_url = tableRows.find(
+                    "a", class_='accent_color')['href']
 
-            # arch = tableRows.find(
-            #     'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
-            allTableCells = tableRows.find_all(
-                'div', class_="table-cell rowheight addseparator expand pad dowrap")
-            # print(allTableCells)
-            arch = allTableCells[1]
-            version = allTableCells[2]
+                variant = tableRows.find(True, 'span', class_=[
+                    'apkm-badge success', 'apkm-badge'])
 
-            app_versions = {
-                "variant": variant.text if variant is not None else error,
-                "download_page_url": self.baseUrl + download_page_url,
-                "arch": arch.text if arch is not None else error,
-                "version": version.text if arch is not None else error,
-                "source" : 'apkmirror'
-            }
+                # arch = tableRows.find(
+                #     'div', class_="table-cell rowheight addseparator expand pad dowrap", string=self.listOfArchs)
+                allTableCells = tableRows.find_all(
+                    'div', class_="table-cell rowheight addseparator expand pad dowrap")
+                # print(allTableCells)
+                arch = allTableCells[1]
+                version = allTableCells[2]
 
-            result_list.append(app_versions)
+                app_versions = {
+                    "variant": variant.text if variant is not None else error,
+                    "download_page_url": self.baseUrl + download_page_url,
+                    "arch": arch.text if arch is not None else error,
+                    "version": version.text if arch is not None else error,
+                    "source": 'apkmirror'
+                }
+
+                result_list.append(app_versions)
+            except:
+                traceback.print_exc
 
         return result_list
 
@@ -110,7 +96,6 @@ class SearchApp:
         apk_download_page = self.baseUrl + \
             soup_of_file.find(
                 "svg", class_="icon download-button-icon").parent['href']
-        
 
         soup = Fetcher.souper(apk_download_page)
 
@@ -165,7 +150,7 @@ class SearchApp:
 
 # print(appdownloadpagelink)
 
-#print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
+# print(search.appInfo('https://www.apkmirror.com/apk/whatsapp-inc/whatsapp-business/whatsapp-business-2-22-15-74-release/whatsapp-business-2-22-15-74-4-android-apk-download/'))
 
 
 # lol = search.appInfo(

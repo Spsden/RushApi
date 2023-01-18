@@ -23,8 +23,9 @@ async def getAppList(app_name: str, response: Response):
 
 @router.get("/variants/")
 async def getDownloadOptions(varianturl: str):
+    return mirror.searchDownloadOptions(url_of=varianturl)
 
-    return search.searchDownloadOptions(url_of=varianturl)
+    #return search.searchDownloadOptions(url_of=varianturl)
 
 
 @router.get("/downloads/")
